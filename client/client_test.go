@@ -11,6 +11,7 @@ import (
 	"github.com/ElegantCreationism/goclient-polygon/client"
 )
 
+// Happy Paths
 func TestMakeGetBlockNumberRequest(t *testing.T) {
 	expectedResult := "0x272919c"
 
@@ -293,5 +294,75 @@ func TestMakeGetBlockByNumberRequest(t *testing.T) {
 
 	if !reflect.DeepEqual(response, expectedResponse) {
 		t.Errorf("Response not as expected. Expected %+v; got %+v", expectedResponse, response)
+	}
+}
+
+// Unhappy Paths
+
+func TestGetBlockNumberError(t *testing.T) {
+	// Set up a mock server that always returns an error
+	mockServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "mock error", http.StatusInternalServerError)
+	}))
+	defer mockServer.Close()
+
+	// Call the GetBlockNumber function with the mock server URL
+	_, err := client.GetBlockNumber(mockServer.URL, "eth_blockNumber")
+	if err == nil {
+		t.Errorf("Expected error, got nil")
+	}
+}
+
+func TestGetBlockByNumberError(t *testing.T) {
+	// Set up a mock server that always returns an error
+	mockServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "mock error", http.StatusInternalServerError)
+	}))
+	defer mockServer.Close()
+
+	// Call the GetBlockByNumber function with the mock server URL and an invalid block number
+	_, err := client.GetBlockByNumber(mockServer.URL, "eth_getBlockByNumber", []interface{}{"invalid_block_number", true})
+	if err == nil {
+		t.Errorf("Expected error, got nil")
+	}
+}
+
+func TestGetBlockNumberRequestFailure(t *testing.T) {
+	// Create a mock server that always returns an error
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusInternalServerError)
+	}))
+	defer server.Close()
+
+	_, err := client.GetBlockNumber(server.URL, "eth_blockNumber")
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
+}
+
+func TestGetBlockByNumberRequestFailure(t *testing.T) {
+	// Create a mock server that always returns an error
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusInternalServerError)
+	}))
+	defer server.Close()
+
+	_, err := client.GetBlockByNumber(server.URL, "eth_getBlockByNumber", []interface{}{"latest", true})
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
+}
+
+func TestGetBlockNumberMarshalingFailure(t *testing.T) {
+	_, err := client.GetBlockNumber("invalid url", "eth_blockNumber")
+	if err == nil {
+		t.Error("Expected an error, but got nil")
+	}
+}
+
+func TestGetBlockByNumberMarshalingFailure(t *testing.T) {
+	_, err := client.GetBlockByNumber("invalid url", "eth_getBlockByNumber", []interface{}{"0x1", true})
+	if err == nil {
+		t.Error("Expected an error, but got nil")
 	}
 }

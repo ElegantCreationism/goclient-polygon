@@ -25,7 +25,7 @@ cover:
 
 .PHONY: dockerise
 dockerise:
-	docker build -t "goeth-client:${IMAGE_TAG}" .
+	docker build -t "elegantcreationism/goclient-polygon:${IMAGE_TAG}" .
 
 .PHONY: lint
 lint: gen
