@@ -40,3 +40,22 @@ This program provides a simple example of how to use the client package to inter
 It demonstrates how to retrieve the latest block number from the Polygon blockchain and how to retrieve the block 
 information for a specific block. You can use this program as a starting point for building more complex applications 
 that interact with the Polygon JSON-RPC API.
+
+## Deployment
+Prerequisites:
+* ECS Cluster
+* Load Balancer
+* VPC and subnets (can be default)
+* Security groups (can be default)
+
+1. To deploy this service navigate to **'terraform/dev'** folder and run **terraform init**.
+2. Alter values in backend.tf to set up your **aws_profile**, to connect to aws 
+3. Run **terraform plan** and review
+4. Run **terraform apply** and check logs for service output.
+
+
+## Improvements
+* Making the client more interactive, it only runs and returns the output, it doesn't run whenever called. (maybe as a lambda it would be able to be triggered on demand)
+* simplify the code, rpc stuff
+* extend the service to support more methods
+* add security to improve the service, https
