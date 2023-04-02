@@ -27,9 +27,9 @@ resource "aws_ecs_service" "app_service" {
   desired_count   = 1
 
   network_configuration {
-    security_groups = var.security_group_ids
-    subnets         = var.subnet_ids
-    assign_public_ip = true
+    security_groups  = var.security_group_ids
+    subnets          = var.subnet_ids
+    assign_public_ip = false
   }
 
   load_balancer {
@@ -43,6 +43,7 @@ resource "aws_lb_target_group" "app_target_group" {
   name        = "${var.app_name}-target-group"
   port        = var.app_port
   protocol    = "HTTP"
+  target_type = "ip"
   vpc_id      = var.vpc_id
 
   health_check {

@@ -7,9 +7,7 @@ all: deps lint test build
 .PHONY: ci
 ci: lint test
 
-.PHONY: build
-build:
-	go build -mod=vendor -a -o ./artifacts/svc .
+docker_repository = "elegantcreationism"
 
 .PHONY: deps
 deps:
@@ -17,15 +15,15 @@ deps:
 
 .PHONY: test
 test:
-	go test -count=1 ./...
+	go test -count=1 -coverprofile cover.out ./...
 
 .PHONY: cover
-cover:
-	go test -count=1 -coverprofile cover.out ./... && go tool cover -html=cover.out
+cover: test
+	go tool cover -html=cover.out
 
 .PHONY: dockerise
 dockerise:
-	docker build -t "elegantcreationism/goclient-polygon:${IMAGE_TAG}" .
+	docker build -t "${docker_repository}/goclient-polygon:${IMAGE_TAG}" .
 
 .PHONY: lint
 lint: gen

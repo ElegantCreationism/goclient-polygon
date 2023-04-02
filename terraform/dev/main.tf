@@ -1,17 +1,11 @@
- terraform {
-   backend "local" {
-     path = ".terraform/terraform.tfstate"
-   }
- }
-
 module "fargate" {
   source = "../modules/fargate"
 
-  app_image          = "goclient-polygon"
+  app_image          = "elegantcreationism/goclient-polygon:latest"
   app_name           = "goclient-polygon"
   app_port           = "8080"
-  ecs_cluster_name   = ""
-  security_group_ids = []
-  subnet_ids         = []
-  vpc_id             = ""
+  ecs_cluster_name   = "DevCluster"
+  security_group_ids = [var.security_group]
+  subnet_ids         = [for s in data.aws_subnet.default : s.id]
+  vpc_id             = data.aws_vpc.selected.id
 }
