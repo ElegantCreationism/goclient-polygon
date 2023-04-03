@@ -34,13 +34,6 @@ number parameter to retrieve block information. It takes three parameters:
 * **method**: The name of the method to call (eth_getBlockByNumber in this case).
 * **blockNumber**: A slice of interface{} containing the block number and a boolean value.
 
-## Conclusion
-
-This program provides a simple example of how to use the client package to interact with a JSON-RPC API using Go code. 
-It demonstrates how to retrieve the latest block number from the Polygon blockchain and how to retrieve the block 
-information for a specific block. You can use this program as a starting point for building more complex applications 
-that interact with the Polygon JSON-RPC API.
-
 ## Deployment
 Prerequisites:
 * ECS Cluster
@@ -55,7 +48,13 @@ Prerequisites:
 
 
 ## Improvements
-* Making the client more interactive, it only runs and returns the output, it doesn't run whenever called. (maybe as a lambda it would be able to be triggered on demand)
-* simplify the code, rpc stuff
-* extend the service to support more methods
-* add security to improve the service, https
+* Making the client more interactive, it only runs and returns the output, it doesn't run whenever called. (As a lambda it would be able to be triggered on demand)
+* RPC request code can be refactored to promote code reuse
+* Extend the service to support more methods, as it will be more useful
+* Improve the error handling, add error codes, so that logs are more descriptive when errors occur, for easier diagnosis
+
+
+This program provides a simple example of how to use the client package to interact with a JSON-RPC API using Go code.
+It demonstrates how to retrieve the latest block number from the Polygon blockchain and how to retrieve the block
+information for a specific block. You can use this program as a starting point for building more complex applications
+that interact with the Polygon JSON-RPC API.

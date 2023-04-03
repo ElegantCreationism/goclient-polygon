@@ -10,14 +10,14 @@ func main() {
 	url := "https://polygon-rpc.com/"
 	blockNumber, err := client.GetBlockNumber(url, "eth_blockNumber")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to get latest block number: %v", err)
 	}
+	fmt.Printf("The latest block number is: %v", blockNumber)
 
 	params := []interface{}{fmt.Sprintf("%v", blockNumber), true}
 	blockResponse, err := client.GetBlockByNumber(url, "eth_getBlockByNumber", params)
 	if err != nil {
-		// Handle error
-		log.Fatal(err)
+		log.Fatalf("failed to get block by number: %v", err)
 	}
 
 	fmt.Printf("Block number: %v, block hash: %v\n", blockResponse.Result.Number, blockResponse.Result.Hash)

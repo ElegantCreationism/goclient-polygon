@@ -2,9 +2,23 @@ package client
 
 import (
 	"bytes"
+	"crypto/rand"
 	"encoding/json"
+	"log"
+	"math/big"
 	"net/http"
 )
+
+const maxID = 1000000 // maximum value of the random ID
+
+func GenerateRandomID() int {
+	randomBigInt, err := rand.Int(rand.Reader, big.NewInt(maxID))
+	if err != nil {
+		// If there is an error reading from the crypto/rand package, panic with the error
+		log.Println(err)
+	}
+	return int(randomBigInt.Int64())
+}
 
 // GetBlockNumber sends an HTTP POST request to the server at the specified URL with the given method to retrieve the current block number.
 func GetBlockNumber(url string, method string) (interface{}, error) {
