@@ -11,6 +11,10 @@ following command in the terminal:
 ```go
 go run main.go
 ```
+To build and run as a docker image:
+```makefile
+make run
+```
 
 ## The client Package
 

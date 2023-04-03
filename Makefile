@@ -25,6 +25,15 @@ cover: test
 build:
 	docker build -t "${docker_repository}/goclient-polygon:${IMAGE_TAG}" .
 
+.PHONY: run
+run: build
+	docker run elegantcreationism/goclient-polygon:${IMAGE_TAG}
+
+.PHONY: push
+push: build
+	docker tag elegantcreationism/goclient-polygon:${IMAGE_TAG} elegantcreationism/goclient-polygon:latest
+	docker push elegantcreationism/goclient-polygon:latest
+
 .PHONY: lint
 lint: gen
 	golangci-lint run
