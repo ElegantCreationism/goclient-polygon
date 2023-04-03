@@ -12,7 +12,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to get latest block number: %v", err)
 	}
-	fmt.Printf("The latest block number is: %v", blockNumber)
+	fmt.Printf("The latest block number is: %v\n", blockNumber)
 
 	params := []interface{}{fmt.Sprintf("%v", blockNumber), true}
 	blockResponse, err := client.GetBlockByNumber(url, "eth_getBlockByNumber", params)

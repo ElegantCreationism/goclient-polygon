@@ -21,8 +21,8 @@ test:
 cover: test
 	go tool cover -html=cover.out
 
-.PHONY: dockerise
-dockerise:
+.PHONY: build
+build:
 	docker build -t "${docker_repository}/goclient-polygon:${IMAGE_TAG}" .
 
 .PHONY: lint
